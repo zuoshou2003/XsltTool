@@ -227,7 +227,7 @@
           <xsl:copy-of select="Grid"/>
         </xsl:element>
       </xsl:variable>
-      <xsl:apply-templates select="$ptRec/PointRecord"/>
+      <xsl:apply-templates select="msxsl:node-set($ptRec)/PointRecord"/>
     </xsl:for-each>
 
     <xsl:text>03&#09;&#09;</xsl:text>  <!-- Op code (new instrument point) and 2 tabs -->
@@ -239,7 +239,7 @@
           <xsl:with-param name="skipStringOutput">true</xsl:with-param>
         </xsl:call-template>
       </xsl:variable>
-      <xsl:value-of select="$pointDesc/ptDesc"/>
+      <xsl:value-of select="msxsl:node-set($pointDesc)/ptDesc"/>
     </xsl:for-each>
     <!-- Output the instrument height - default to 0 if null -->
     <xsl:variable name="instHt">
@@ -308,7 +308,7 @@
           <xsl:with-param name="skipStringOutput">true</xsl:with-param>
         </xsl:call-template>
       </xsl:variable>
-      <xsl:value-of select="$pointDesc/ptDesc"/>
+      <xsl:value-of select="msxsl:node-set($pointDesc)/ptDesc"/>
       <!-- Output the east value -->
       <xsl:value-of select="format-number(Grid/East, $DecPl8, 'Standard')"/>
       <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
@@ -319,10 +319,10 @@
       <xsl:value-of select="format-number(Grid/Elevation, $DecPl8, 'Standard')"/>
       <xsl:call-template name="NewLine"/>
 
-      <xsl:if test="$pointDesc/controlCode != ''">
+      <xsl:if test="msxsl:node-set($pointDesc)/controlCode != ''">
         <xsl:call-template name="WriteControlCode">
-          <xsl:with-param name="controlCode" select="$pointDesc/controlCode"/>
-          <xsl:with-param name="ptDesc" select="$pointDesc/ptDesc"/>
+          <xsl:with-param name="controlCode" select="msxsl:node-set($pointDesc)/controlCode"/>
+          <xsl:with-param name="ptDesc" select="msxsl:node-set($pointDesc)/ptDesc"/>
         </xsl:call-template>
       </xsl:if>
     </xsl:when>
@@ -365,21 +365,21 @@
       <xsl:variable name="pointDesc">
         <xsl:call-template name="PointDescriptionOutput"/>
       </xsl:variable>
-      <xsl:value-of select="$pointDesc/ptDesc"/>
+      <xsl:value-of select="msxsl:node-set($pointDesc)/ptDesc"/>
       <!-- Output the east value -->
-      <xsl:value-of select="format-number($ptCoords/east, $DecPl8, 'Standard')"/>
+      <xsl:value-of select="format-number(msxsl:node-set($ptCoords)/east, $DecPl8, 'Standard')"/>
       <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
       <!-- Output the north value -->
-      <xsl:value-of select="format-number($ptCoords/north, $DecPl8, 'Standard')"/>
+      <xsl:value-of select="format-number(msxsl:node-set($ptCoords)/north, $DecPl8, 'Standard')"/>
       <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
       <!-- Output the elevation value -->
-      <xsl:value-of select="format-number($ptCoords/elev, $DecPl8, 'Standard')"/>
+      <xsl:value-of select="format-number(msxsl:node-set($ptCoords)/elev, $DecPl8, 'Standard')"/>
       <xsl:call-template name="NewLine"/>
 
-      <xsl:if test="$pointDesc/controlCode != ''">
+      <xsl:if test="msxsl:node-set($pointDesc)/controlCode != ''">
         <xsl:call-template name="WriteControlCode">
-          <xsl:with-param name="controlCode" select="$pointDesc/controlCode"/>
-          <xsl:with-param name="ptDesc" select="$pointDesc/ptDesc"/>
+          <xsl:with-param name="controlCode" select="msxsl:node-set($pointDesc)/controlCode"/>
+          <xsl:with-param name="ptDesc" select="msxsl:node-set($pointDesc)/ptDesc"/>
         </xsl:call-template>
       </xsl:if>
     </xsl:when>
@@ -401,7 +401,7 @@
               <xsl:with-param name="backsightObs">true</xsl:with-param>
             </xsl:call-template>
           </xsl:variable>
-          <xsl:value-of select="$pointDesc/ptDesc"/>
+          <xsl:value-of select="msxsl:node-set($pointDesc)/ptDesc"/>
           <xsl:call-template name="CircleObservationOutput">
             <xsl:with-param name="skipNewLine">true</xsl:with-param>
           </xsl:call-template>
@@ -417,10 +417,10 @@
           </xsl:if>
           <xsl:call-template name="NewLine"/>
 
-          <xsl:if test="$pointDesc/controlCode != ''">
+          <xsl:if test="msxsl:node-set($pointDesc)/controlCode != ''">
             <xsl:call-template name="WriteControlCode">
-              <xsl:with-param name="controlCode" select="$pointDesc/controlCode"/>
-              <xsl:with-param name="ptDesc" select="$pointDesc/ptDesc"/>
+              <xsl:with-param name="controlCode" select="msxsl:node-set($pointDesc)/controlCode"/>
+              <xsl:with-param name="ptDesc" select="msxsl:node-set($pointDesc)/ptDesc"/>
             </xsl:call-template>
           </xsl:if>
         </xsl:when>
@@ -701,10 +701,10 @@
 
   <!-- Output the extracted code -->
   <xsl:element name="ptDesc" namespace="">
-    <xsl:value-of select="$codeFields/code"/>
+    <xsl:value-of select="msxsl:node-set($codeFields)/code"/>
     <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
     <!-- Output the extracted string number -->
-    <xsl:value-of select="$codeFields/stringNumber"/>
+    <xsl:value-of select="msxsl:node-set($codeFields)/stringNumber"/>
     <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
     <xsl:value-of select="Name"/>     <!-- Point number (Name) -->
     <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
@@ -718,12 +718,12 @@
     </xsl:if>
     <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
     <!-- Output the extracted point text -->
-    <xsl:value-of select="$codeFields/pointText"/>
+    <xsl:value-of select="msxsl:node-set($codeFields)/pointText"/>
     <xsl:text>&#09;</xsl:text>        <!-- Tab field separator -->
   </xsl:element>
   <xsl:element name="controlCode" namespace="">
-    <xsl:if test="$codeFields/controlCode != ''">
-      <xsl:value-of select="$codeFields/controlCode"/>
+    <xsl:if test="msxsl:node-set($codeFields)/controlCode != ''">
+      <xsl:value-of select="msxsl:node-set($codeFields)/controlCode"/>
     </xsl:if>
   </xsl:element>
 </xsl:template>
@@ -1132,7 +1132,7 @@
               </xsl:variable>
               <!-- Now get the first observation - this will ensure         -->
               <!-- that we only have a single angle value left to work with -->
-              <xsl:value-of select="$OrigPtObs/obs[1] - Circle/HorizontalCircle"/>  <!-- Report delta from current obs to Orig obs -->
+              <xsl:value-of select="msxsl:node-set($OrigPtObs)/obs[1] - Circle/HorizontalCircle"/>  <!-- Report delta from current obs to Orig obs -->
             </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
@@ -1537,13 +1537,13 @@
   </xsl:variable>
 
   <xsl:variable name="sortedDateFormat">
-    <xsl:for-each select="$dateFormat/item">
+    <xsl:for-each select="msxsl:node-set($dateFormat)/item">
       <xsl:sort select="startPos" data-type="number" order="ascending"/>
       <xsl:copy-of select="."/>
     </xsl:for-each>
   </xsl:variable>
 
-  <xsl:for-each select="$sortedDateFormat/item">
+  <xsl:for-each select="msxsl:node-set($sortedDateFormat)/item">
     <xsl:value-of select="string"/>
     <xsl:if test="position() != last()">  <!-- Output the separating character(s) -->
       <xsl:variable name="sepStrStart" select="startPos + length"/>
